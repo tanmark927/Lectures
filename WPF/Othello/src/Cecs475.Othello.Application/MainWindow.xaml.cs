@@ -21,10 +21,5 @@ namespace Cecs475.Othello.Application {
 		public MainWindow() {
 			InitializeComponent();
 		}
-
-        private void undo_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-    }
+	}
 }

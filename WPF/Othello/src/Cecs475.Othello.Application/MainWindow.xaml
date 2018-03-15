@@ -7,9 +7,6 @@
         mc:Ignorable="d"
         Title="Othello!" Width="500">
     <DockPanel>
-        <ToolBar DockPanel.Dock="Top">
-            <Button Name="undo" Content="Undo" Click="undo_Click"/>
-        </ToolBar>
         <StatusBar Height="30" DockPanel.Dock="Bottom" FontSize="10" DataContext="{Binding ElementName=OthelloView}">
             <WrapPanel>
                 <Label>Score:</Label>

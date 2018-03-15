@@ -7,15 +7,6 @@ using System.Collections.ObjectModel;
 namespace Cecs475.Othello.Application {
 	public class OthelloSquare : INotifyPropertyChanged {
 		private int mPlayer;
-        private int mCurrentPlayer;
-        public int CurrentPlayer
-        {
-            get { return mCurrentPlayer; }
-            private set {
-                OthelloBoard ob = new OthelloBoard();
-                mCurrentPlayer = ob.CurrentPlayer;
-            }
-        }
 		public int Player {
 			get { return mPlayer; }
 			set {
@@ -87,13 +78,5 @@ namespace Cecs475.Othello.Application {
 
 		public GameAdvantage CurrentAdvantage { get { return mBoard.CurrentAdvantage; } }
 
-        public void UndoLastMove()
-        {
-            if(mBoard.MoveHistory.Last() != null)
-            {
-                mBoard.UndoLastMove();
-                OnPropertyChanged(nameof(CurrentAdvantage));
-            }
-        }
 	}
 }
