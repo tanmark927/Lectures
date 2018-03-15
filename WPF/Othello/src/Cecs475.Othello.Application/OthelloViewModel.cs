@@ -85,5 +85,13 @@ namespace Cecs475.Othello.Application {
 
 		public int BoardValue { get { return mBoard.Value; } }
 
+        public void UndoLastMove()
+        {
+            if(mBoard.MoveHistory.Last() != null)
+            {
+                mBoard.UndoLastMove();
+                OnPropertyChanged(nameof(BoardValue));
+            }
+        }
 	}
 }
