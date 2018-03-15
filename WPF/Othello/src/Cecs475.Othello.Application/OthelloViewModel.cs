@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Cecs475.Othello.Model;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
+using System.Windows.Data;
+using System.Globalization;
 
 namespace Cecs475.Othello.Application {
 	public class OthelloSquare : INotifyPropertyChanged {
@@ -27,8 +30,9 @@ namespace Cecs475.Othello.Application {
 		}
 	}
 
-	public class OthelloViewModel : INotifyPropertyChanged {
+	public class OthelloViewModel : INotifyPropertyChanged, IValueConverter {
 		private OthelloBoard mBoard;
+        public int CurrentPlayer { get { return mBoard.CurrentPlayer; } }
 		private ObservableCollection<OthelloSquare> mSquares;
 
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -49,7 +53,26 @@ namespace Cecs475.Othello.Application {
 			PossibleMoves = new HashSet<BoardPosition>(mBoard.GetPossibleMoves().Select(m => m.Position));
 		}
 
-		public void ApplyMove(BoardPosition position) {
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            int player = (int)value;
+            if (player == 0)
+            {
+                return null;
+            }
+            return (player == 1) ? "Black" : "White";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            string piece = (string)value;
+            if (piece == null)
+                return null;
+            return (piece.Equals("Black")) ? 1 : 2;
+        }
+
+        public void ApplyMove(BoardPosition position) {
 			var possMoves = mBoard.GetPossibleMoves() as IEnumerable<OthelloMove>;
 			foreach (var move in possMoves) {
 				if (move.Position.Equals(position)) {
@@ -65,6 +88,7 @@ namespace Cecs475.Othello.Application {
 				mSquares[i].Player = mBoard.GetPlayerAtPosition(pos);
 				i++;
 			}
+            OnPropertyChanged(nameof(CurrentPlayer));
 			OnPropertyChanged(nameof(CurrentAdvantage));
 		}
 
@@ -83,7 +107,8 @@ namespace Cecs475.Othello.Application {
             if(mBoard.MoveHistory.Last() != null)
             {
                 mBoard.UndoLastMove();
-                OnPropertyChanged(nameof(BoardValue));
+                OnPropertyChanged(nameof(CurrentPlayer));
+                OnPropertyChanged(nameof(CurrentAdvantage));
             }
         }
 	}

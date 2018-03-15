@@ -4,23 +4,23 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Cecs475.Othello.Application"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         Title="Othello!" Width="500">
+    <Window.Resources>
+        <local:OthelloScoreConverter x:Key="PlayerScore"/>
+        <local:OthelloViewModel x:Key="PlayerTurn"/>
+    </Window.Resources>
     <DockPanel>
         <ToolBar DockPanel.Dock="Top">
-            <Button Name="undo"  Content="Undo" VerticalAlignment="Top" Click="undo_Click"/>
+            <Button Name="undo"  Content="Undo" VerticalAlignment="Top" Click="Undo_Click"/>
         </ToolBar>
         <StatusBar Height="30" DockPanel.Dock="Bottom" FontSize="10" DataContext="{Binding ElementName=OthelloView}">
             <WrapPanel>
                 <Label>Score:</Label>
-<<<<<<< HEAD
-                <Label Content="{Binding Model.BoardValue}"/>
-
-                <Label Content="Current Player:"/>
-                <Label Content="{Binding Player}"/>
-=======
-                <Label Content="{Binding Model.CurrentAdvantage.Advantage}"/>
->>>>>>> master
+                <Label Content="{Binding Model.CurrentAdvantage.Advantage, Converter={StaticResource PlayerScore}}"/>
+                <Label Content="Turn:"/>
+                <Label Content="{Binding Model.CurrentPlayer, Converter={StaticResource PlayerTurn}}"/>
             </WrapPanel>
         </StatusBar>
         <local:OthelloView x:Name="OthelloView"/>

@@ -25,7 +25,7 @@ namespace Cecs475.Othello.Application
 				return null;
 			}
 
-			Ellipse token = new Ellipse()
+			Rectangle token = new Rectangle()
 			{
 				Fill = GetFillBrush(player)
 			};
@@ -33,7 +33,7 @@ namespace Cecs475.Othello.Application
 		}
 
 		private static SolidColorBrush GetFillBrush(int player)
-		{
+        {
 			if (player == 1)
 				return Brushes.Black;
 			return Brushes.White;
