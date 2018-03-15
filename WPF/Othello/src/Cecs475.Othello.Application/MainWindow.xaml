@@ -13,10 +13,14 @@
         <StatusBar Height="30" DockPanel.Dock="Bottom" FontSize="10" DataContext="{Binding ElementName=OthelloView}">
             <WrapPanel>
                 <Label>Score:</Label>
+<<<<<<< HEAD
                 <Label Content="{Binding Model.BoardValue}"/>
 
                 <Label Content="Current Player:"/>
                 <Label Content="{Binding Player}"/>
+=======
+                <Label Content="{Binding Model.CurrentAdvantage.Advantage}"/>
+>>>>>>> master
             </WrapPanel>
         </StatusBar>
         <local:OthelloView x:Name="OthelloView"/>
