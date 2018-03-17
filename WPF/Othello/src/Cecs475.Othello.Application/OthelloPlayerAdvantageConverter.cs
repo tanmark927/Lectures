@@ -1,5 +1,4 @@
-﻿using Cecs475.Othello.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -9,16 +8,17 @@ using System.Windows.Data;
 
 namespace Cecs475.Othello.Application
 {
-    //convert advantage score int to a string
-    public class OthelloScoreConverter: IValueConverter
+    public class OthelloPlayerAdvantageConverter: IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            int score = (int)value;
-            if (score == 0)
-                return "tie game";
+            int player = (int)value;
+            if (player == 1)
+                return "black is winning by ";
+            else if (player == 2)
+                return "white is winning by ";
             else
-                return  "" + score;
+                return "";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -8,22 +8,23 @@
         mc:Ignorable="d"
         Title="Othello!" Width="500">
     <Window.Resources>
+        <local:OthelloPlayerAdvantageConverter x:Key="PlayerAhead"/>
         <local:OthelloScoreConverter x:Key="PlayerScore"/>
         <local:OthelloViewModel x:Key="PlayerTurn"/>
     </Window.Resources>
     <DockPanel>
         <ToolBar DockPanel.Dock="Top">
-            <Button Name="undo"  Content="Undo" VerticalAlignment="Top" Click="Undo_Click"/>
+            <Button Name="undo"  Content="Undo" VerticalAlignment="Top" Click="undo_Click" IsEnabled="True"/>
         </ToolBar>
         <StatusBar Height="30" DockPanel.Dock="Bottom" FontSize="10" DataContext="{Binding ElementName=OthelloView}">
             <WrapPanel>
-                <Label>Score:</Label>
+                <Label Content="Score:"/>
+                <Label Content="{Binding Model.CurrentAdvantage.Player, Converter={StaticResource PlayerAhead}}"/>
                 <Label Content="{Binding Model.CurrentAdvantage.Advantage, Converter={StaticResource PlayerScore}}"/>
                 <Label Content="Turn:"/>
                 <Label Content="{Binding Model.CurrentPlayer, Converter={StaticResource PlayerTurn}}"/>
             </WrapPanel>
         </StatusBar>
         <local:OthelloView x:Name="OthelloView"/>
-        
     </DockPanel>
 </Window>

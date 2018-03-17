@@ -73,6 +73,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OthelloPlayerAdvantageConverter.cs" />
     <Compile Include="OthelloScoreConverter.cs" />
     <Compile Include="OthelloSquarePlayerConverter.cs" />
     <Compile Include="OthelloView.xaml.cs">

@@ -22,9 +22,9 @@ namespace Cecs475.Othello.Application {
 			InitializeComponent();
 		}
 
-        private void Undo_Click(object sender, RoutedEventArgs e)
+        private void undo_Click(object sender, RoutedEventArgs e)
         {
-            OthelloViewModel ovm = sender as OthelloViewModel;
+            var ovm = this.FindResource("PlayerTurn") as OthelloViewModel;
             ovm.UndoLastMove();
         }
     }

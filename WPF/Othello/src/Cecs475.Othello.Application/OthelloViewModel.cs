@@ -104,12 +104,18 @@ namespace Cecs475.Othello.Application {
 
         public void UndoLastMove()
         {
-            if(mBoard.MoveHistory.Last() != null)
+            mBoard.UndoLastMove();
+
+            PossibleMoves = new HashSet<BoardPosition>(mBoard.GetPossibleMoves().Select(m => m.Position));
+            var newSquares = BoardPosition.GetRectangularPositions(8, 8);
+            int i = 0;
+            foreach (var pos in newSquares)
             {
-                mBoard.UndoLastMove();
-                OnPropertyChanged(nameof(CurrentPlayer));
-                OnPropertyChanged(nameof(CurrentAdvantage));
+                mSquares[i].Player = mBoard.GetPlayerAtPosition(pos);
+                i++;
             }
+            OnPropertyChanged(nameof(CurrentPlayer));
+            OnPropertyChanged(nameof(CurrentAdvantage));
         }
 	}
 }
