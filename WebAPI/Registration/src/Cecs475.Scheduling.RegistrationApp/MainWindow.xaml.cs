@@ -142,5 +142,26 @@ namespace Cecs475.Scheduling.RegistrationApp {
 				}
 			}
 		}
-	}
+
+        private async void mAsyncLoaded(object sender, RoutedEventArgs e)
+        {
+            var client = new RestClient(ViewModel.ApiUrl);
+            var request = new RestRequest("api/schedule/terms", Method.GET);
+            var task = client.ExecuteTaskAsync(request);
+            var response = await task;
+            JObject obj = JObject.Parse(response.Content);
+
+            //semesterdto object
+            //set viewmodel property with the list
+
+            if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                MessageBox.Show("Student not found");
+            }
+            else
+            { 
+
+            }
+        }
+    }
 }
