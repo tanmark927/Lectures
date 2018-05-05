@@ -42,7 +42,8 @@ namespace Cecs475.Scheduling.RegistrationApp {
 		}
 
 		private void mRegisterBtn_Click(object sender, RoutedEventArgs e) {
-			string[] courseSplit = mCourseText.Text.Split('-');
+			string[] courseSplit = mCourseText.Text.Split('-'); 
+            //mCourseText NOW A COMBOBOX
 			int sectionNum = Convert.ToInt32(courseSplit[1]);
 			string[] nameSplit = courseSplit[0].Split(' ');
 
@@ -147,20 +148,36 @@ namespace Cecs475.Scheduling.RegistrationApp {
         {
             var client = new RestClient(ViewModel.ApiUrl);
             var request = new RestRequest("api/schedule/terms", Method.GET);
-            var task = client.ExecuteTaskAsync(request);
-            var response = await task;
-            JObject obj = JObject.Parse(response.Content);
+            var response = await client.ExecuteTaskAsync(request);
 
             //semesterdto object
             //set viewmodel property with the list
 
             if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
-                MessageBox.Show("Student not found");
+                MessageBox.Show("Terms not found");
             }
             else
-            { 
+            {
+                JObject obj = JObject.Parse(response.Content);
+            }
+        }
 
+        private async void selectionChanged(object sender, RoutedEventArgs e)
+        {
+            //sender will be a combobox
+            var client = new RestClient(ViewModel.ApiUrl);
+            var request = new RestRequest("api/schedule/{id}", Method.GET);
+            //request.AddUrlSegment("id", sender.id);
+            var response = await client.ExecuteTaskAsync(request);
+
+            if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                MessageBox.Show("Semester term not found");
+            }
+            else
+            {
+                JObject obj = JObject.Parse(response.Content);
             }
         }
     }
