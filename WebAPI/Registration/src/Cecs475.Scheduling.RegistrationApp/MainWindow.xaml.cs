@@ -43,8 +43,7 @@ namespace Cecs475.Scheduling.RegistrationApp {
 		}
 
 		private void mRegisterBtn_Click(object sender, RoutedEventArgs e) {
-			string[] courseSplit = mCourseText.Text.Split('-'); 
-            //mCourseText NOW A COMBOBOX
+			string[] courseSplit = mCourseText.SelectedItem.ToString().Split('-');
 			int sectionNum = Convert.ToInt32(courseSplit[1]);
 			string[] nameSplit = courseSplit[0].Split(' ');
 
@@ -62,7 +61,7 @@ namespace Cecs475.Scheduling.RegistrationApp {
 				request.AddJsonBody(new {
 					StudentId = (int)obj["Id"],
 					CourseSection = new {
-						SemesterTermId = 2, // hard-code Fall 2017
+						SemesterTermId = mSemesterText.SelectedItem, //TODO
 						CatalogCourse = new {
 							DepartmentName = nameSplit[0],
 							CourseNumber = nameSplit[1]
@@ -83,10 +82,9 @@ namespace Cecs475.Scheduling.RegistrationApp {
 		}
 
 		private async void mAsyncBtn_Click(object sender, RoutedEventArgs e) {
-			string[] courseSplit = mCourseText.Text.Split('-');
-			int sectionNum = Convert.ToInt32(courseSplit[1]);
+            string[] courseSplit = mCourseText.SelectedItem.ToString().Split('-');
+            int sectionNum = Convert.ToInt32(courseSplit[1]);
 			string[] nameSplit = courseSplit[0].Split(' ');
-
 
 			var client = new RestClient(ViewModel.ApiUrl);
 			var request = new RestRequest("api/students/{name}", Method.GET);
@@ -124,7 +122,7 @@ namespace Cecs475.Scheduling.RegistrationApp {
 				request.AddJsonBody(new {
 					StudentId = (int)obj["Id"],
 					CourseSection = new {
-						SemesterTermId = 2, // hard-code Fall 2017
+						SemesterTermId = mSemesterText.SelectedItem, //TODO
 						CatalogCourse = new {
 							DepartmentName = nameSplit[0],
 							CourseNumber = nameSplit[1]
