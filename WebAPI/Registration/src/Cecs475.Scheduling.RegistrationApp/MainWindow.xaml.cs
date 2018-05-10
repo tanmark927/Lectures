@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RestSharp;
 
@@ -147,38 +148,24 @@ namespace Cecs475.Scheduling.RegistrationApp {
         private async void mAsyncLoaded(object sender, RoutedEventArgs e)
         {
             var client = new RestClient(ViewModel.ApiUrl);
+
             var request = new RestRequest("api/schedule/terms", Method.GET);
-            var response = await client.ExecuteTaskAsync(request);
 
-            //semesterdto object
-            //set viewmodel property with the list
-
-            if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
-            {
-                MessageBox.Show("Terms not found");
-            }
-            else
-            {
-                JObject obj = JObject.Parse(response.Content);
-            }
+            var response = await client.ExecuteTaskAsync<List<SemesterTermDto>>(request);
+            ViewModel.StdList = response.Data;
         }
 
-        private async void selectionChanged(object sender, RoutedEventArgs e)
+        private async void mAsyncSelectionChanged(object sender, RoutedEventArgs e)
         {
             //sender will be a combobox
+            var obj = (SemesterTermDto)(sender as ComboBox).SelectedItem;
             var client = new RestClient(ViewModel.ApiUrl);
-            var request = new RestRequest("api/schedule/{id}", Method.GET);
-            //request.AddUrlSegment("id", sender.id);
-            var response = await client.ExecuteTaskAsync(request);
 
-            if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
-            {
-                MessageBox.Show("Semester term not found");
-            }
-            else
-            {
-                JObject obj = JObject.Parse(response.Content);
-            }
+            var request = new RestRequest("api/schedule/{id}", Method.GET);
+            request.AddUrlSegment("id", obj.Id.ToString());
+
+            var response = await client.ExecuteTaskAsync(request);
+            ViewModel.CsdList = JsonConvert.DeserializeObject<List<CourseSectionDto>>(response.Content);
         }
     }
 }
